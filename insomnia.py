@@ -70,7 +70,7 @@ insomniac = False
 # ------------------------------------------------------------------------------
 root = tk.Tk()
 root.title("Insomnia")
-root.geometry("300x150+1607+838")
+root.geometry("300x150+0+0")
 
 # Label has to go down here so it can use root as the master for the StringVar
 label = tk.StringVar(root)
