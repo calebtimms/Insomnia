@@ -1,12 +1,12 @@
-import datetime
 import pyautogui
 import threading
 import time
 import tkinter as tk
 
-#------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 # Method Definitions
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 def guardian():
     def run():
         global insomniac
@@ -14,27 +14,30 @@ def guardian():
         global sleep_time
 
         last_move = time.strftime('%I:%M:%S %p', time.localtime())
-        while(insomniac == True):
+        while (insomniac):
             still_time = 0
-            while(still_time < sleep_time and insomniac):
-                label.set("Last Move: %s\nNext Toggle: %s" %(str(last_move), '%02d:%02d' %((sleep_time-still_time)/60, (sleep_time-still_time)%60)))
+            while (still_time < sleep_time and insomniac):
+                label.set("Last Move: %s\nNext Toggle: %s" % (
+                    str(last_move), '%02d:%02d' % ((sleep_time - still_time) / 60, (sleep_time - still_time) % 60)))
                 previous_position = pyautogui.position()
                 time.sleep(1)
-                if(pyautogui.position() == previous_position):
+                if (pyautogui.position() == previous_position):
                     still_time += 1
                 else:
                     still_time = 0
                     last_move = time.strftime('%I:%M:%S %p', time.localtime())
-                    
-            if(insomniac):
-                label.set("Last Move: %s\nNext Toggle: %s" %(str(last_move), '%02d:%02d' %((sleep_time-still_time)/60, (sleep_time-still_time)%60)))
+
+            if (insomniac):
+                label.set("Last Move: %s\nNext Toggle: %s" % (
+                    str(last_move), '%02d:%02d' % ((sleep_time - still_time) / 60, (sleep_time - still_time) % 60)))
                 pyautogui.press('volumeup')
                 pyautogui.press('volumedown')
-                time.sleep(1)      
+                time.sleep(1)
 
     thread = threading.Thread(target=run)
-    if(not thread.is_alive()):
+    if (not thread.is_alive()):
         thread.start()
+
 
 def guard_on():
     global insomniac
@@ -44,7 +47,8 @@ def guard_on():
     b_sleep.configure(bg='red')
     b_sleep.configure(state='normal')
     guardian()
-    
+
+
 def sleep_on():
     global insomniac
     insomniac = False
@@ -54,15 +58,16 @@ def sleep_on():
     b_sleep.configure(state='disabled')
     label.set('Insomnia\nInactive')
 
-#------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 # Global Variables
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 sleep_time = 600
 insomniac = False
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # GUI Creation
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 root = tk.Tk()
 root.title("Insomnia")
 root.geometry("300x150+1607+838")
@@ -87,7 +92,7 @@ b_sleep = tk.Button(b_frame, text="Sleep", bg='green', disabledforeground='black
 b_sleep.pack(side='right', fill='both', expand=True)
 b_sleep.configure(state='disabled')
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Run Program
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 root.mainloop()
